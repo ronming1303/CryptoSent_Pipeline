@@ -1,6 +1,6 @@
 name: Daily CryptoSent Update
 
-on:
+"on":
   schedule:
     - cron: '0 2 * * *'   # 02:00 UTC daily (markets closed, data settled)
   workflow_dispatch:        # allow manual trigger from GitHub UI
