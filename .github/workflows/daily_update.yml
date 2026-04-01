@@ -1,0 +1,39 @@
+name: Daily CryptoSent Update
+
+on:
+  schedule:
+    - cron: '0 2 * * *'   # 02:00 UTC daily (markets closed, data settled)
+  workflow_dispatch:        # allow manual trigger from GitHub UI
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create data directories
+        run: mkdir -p data/raw data/processed logs
+
+      - name: Run pipeline
+        run: |
+          cd pipeline
+          python daily_update.py 2>&1 | tee ../logs/daily.log
+
+      - name: Commit updated cryptosent.csv
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/processed/cryptosent.csv
+          git diff --cached --quiet || git commit -m "data: update CryptoSent $(date -u +%Y-%m-%d)"
+          git push

@@ -1,0 +1,8 @@
+data/raw/
+data/processed/*
+!data/processed/cryptosent.csv
+.claude/
+__pycache__/
+*.pyc
+.env
+.DS_Store
