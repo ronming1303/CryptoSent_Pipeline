@@ -53,6 +53,8 @@ def load_raw() -> pd.DataFrame:
 
     # volatility = 30-day rolling std of crypto_index (normalized 0-100)
     df["volatility"] = df["crypto_index"].rolling(30).std()
+    # Drop the first 29 rows where rolling std is undefined (insufficient history)
+    df = df.dropna(subset=["volatility"]).reset_index(drop=True)
     df["volatility"] = df["volatility"] / df["volatility"].max() * 100
 
     # Normalize all proxies to 0-100
