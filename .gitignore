@@ -1,7 +1,5 @@
-data/raw/
 data/processed/*
 !data/processed/cryptosent.csv
-!data/processed/components.csv
 .claude/
 __pycache__/
 *.pyc

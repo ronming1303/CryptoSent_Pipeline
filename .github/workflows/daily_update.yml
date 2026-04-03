@@ -34,6 +34,6 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/processed/cryptosent.csv data/processed/components.csv
+          git add data/raw/ data/processed/cryptosent.csv
           git diff --cached --quiet || git commit -m "data: update CryptoSent $(date -u +%Y-%m-%d)"
           git push
